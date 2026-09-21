@@ -62,10 +62,10 @@
         /* Ambient Glow Blobs */
         .glow-blob {
             position: fixed;
-            width: 350px;
-            height: 350px;
+            width: 380px;
+            height: 380px;
             border-radius: 50%;
-            filter: blur(90px);
+            filter: blur(95px);
             opacity: 0.35;
             z-index: 0;
             pointer-events: none;
@@ -82,7 +82,7 @@
         /* Glassmorphism Main Player Container */
         .player-container {
             width: 100%;
-            max-width: 460px;
+            max-width: 480px;
             background: var(--card-bg);
             backdrop-filter: blur(32px) saturate(210%);
             -webkit-backdrop-filter: blur(32px) saturate(210%);
@@ -172,8 +172,8 @@
         .artwork-container {
             width: 100%;
             aspect-ratio: 1 / 1;
-            max-height: 280px;
-            margin: 0 auto 20px auto;
+            max-height: 270px;
+            margin: 0 auto 18px auto;
             border-radius: 24px;
             overflow: hidden;
             position: relative;
@@ -208,31 +208,58 @@
             align-items: center;
             gap: 5px;
             border: 1px solid rgba(255, 255, 255, 0.15);
+            z-index: 2;
         }
 
-        /* Spectrum Visualizer Canvas */
+        /* Seek Notification Toast Badge */
+        .seek-toast {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0.8);
+            background: rgba(15, 23, 42, 0.88);
+            backdrop-filter: blur(12px);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 700;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.6);
+            opacity: 0;
+            pointer-events: none;
+            transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+            z-index: 5;
+        }
+        .seek-toast.show {
+            opacity: 1;
+            transform: translate(-50%, -50%) scale(1);
+        }
+
+        /* Ultra Smooth Audio Spectrum Visualizer Canvas */
         .visualizer-box {
             position: absolute;
             bottom: 0;
             left: 0;
             width: 100%;
-            height: 45px;
-            background: linear-gradient(to top, rgba(7, 9, 19, 0.85), transparent);
+            height: 52px;
+            background: linear-gradient(to top, rgba(7, 9, 19, 0.9), transparent);
             display: flex;
             align-items: flex-end;
-            padding: 0 10px 6px 10px;
+            padding: 0 8px 4px 8px;
+            z-index: 2;
         }
 
         #spectrumCanvas {
             width: 100%;
-            height: 35px;
+            height: 44px;
             display: block;
         }
 
         /* Song Info */
         .track-info {
             text-align: center;
-            margin-bottom: 18px;
+            margin-bottom: 16px;
         }
 
         .track-title {
@@ -255,27 +282,53 @@
             text-overflow: ellipsis;
         }
 
-        /* Progress Slider Bar */
+        /* Ultra Smooth Progress Slider Bar */
         .progress-container {
             margin-bottom: 18px;
         }
 
         .progress-bar-wrapper {
             width: 100%;
-            height: 6px;
-            background: rgba(255, 255, 255, 0.1);
+            height: 7px;
+            background: rgba(255, 255, 255, 0.08);
             border-radius: 10px;
             position: relative;
             cursor: pointer;
-            overflow: hidden;
+            overflow: visible;
+            transition: height 0.2s ease, background 0.2s ease;
+        }
+
+        .progress-bar-wrapper:hover {
+            height: 9px;
+            background: rgba(255, 255, 255, 0.14);
         }
 
         .progress-fill {
             height: 100%;
             width: 0%;
-            background: linear-gradient(90deg, var(--accent-primary), var(--accent-secondary));
+            background: linear-gradient(90deg, var(--accent-primary), var(--accent-secondary), #38bdf8);
             border-radius: 10px;
-            transition: width 0.2s linear;
+            position: relative;
+            box-shadow: 0 0 12px var(--accent-glow);
+            transition: width 0.15s linear;
+        }
+
+        .progress-thumb-dot {
+            position: absolute;
+            right: -6px;
+            top: 50%;
+            transform: translateY(-50%) scale(0);
+            width: 14px;
+            height: 14px;
+            background: #ffffff;
+            border-radius: 50%;
+            box-shadow: 0 0 12px var(--accent-primary), 0 0 20px var(--accent-secondary);
+            transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+            pointer-events: none;
+        }
+
+        .progress-bar-wrapper:hover .progress-thumb-dot {
+            transform: translateY(-50%) scale(1);
         }
 
         .time-stamps {
@@ -283,41 +336,66 @@
             justify-content: space-between;
             font-size: 11px;
             color: var(--text-muted);
-            margin-top: 6px;
+            margin-top: 8px;
             font-weight: 600;
         }
 
-        /* Controls Row */
+        /* Main Controls Row */
         .controls-main {
             display: flex;
             align-items: center;
-            justify-content: space-between;
+            justify-content: space-evenly;
             margin-bottom: 20px;
-            padding: 0 10px;
         }
 
         .ctrl-btn {
             background: none;
             border: none;
             color: var(--text-muted);
-            font-size: 17px;
+            font-size: 16px;
             cursor: pointer;
-            width: 38px;
-            height: 38px;
+            width: 36px;
+            height: 36px;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             transition: all 0.2s ease;
+            position: relative;
         }
 
         .ctrl-btn:hover {
             color: var(--text-main);
             background: rgba(255, 255, 255, 0.08);
+            transform: scale(1.05);
         }
 
         .ctrl-btn.active {
             color: var(--accent-secondary);
+        }
+
+        /* 10-Second Seek Buttons */
+        .seek-btn {
+            width: 38px;
+            height: 38px;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 50%;
+        }
+
+        .seek-btn .seek-badge {
+            position: absolute;
+            font-size: 8px;
+            font-weight: 800;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -40%);
+            color: white;
+            pointer-events: none;
+        }
+
+        .seek-btn i {
+            font-size: 14px;
         }
 
         .play-btn {
@@ -345,45 +423,65 @@
             transform: scale(0.95);
         }
 
-        /* Volume Control */
+        /* Ultra Smooth Sound / Volume Bar Row */
         .volume-bar-row {
             display: flex;
             align-items: center;
             gap: 12px;
             background: rgba(255, 255, 255, 0.04);
-            padding: 8px 16px;
-            border-radius: 16px;
-            border: 1px solid rgba(255, 255, 255, 0.06);
+            padding: 10px 18px;
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
             margin-bottom: 22px;
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05);
         }
 
         .vol-icon {
             color: var(--text-muted);
-            font-size: 14px;
-            width: 18px;
+            font-size: 15px;
+            width: 20px;
             cursor: pointer;
+            transition: color 0.2s;
+        }
+
+        .vol-icon:hover {
+            color: var(--text-main);
+        }
+
+        .volume-slider-wrapper {
+            flex: 1;
+            position: relative;
+            display: flex;
+            align-items: center;
         }
 
         .volume-slider {
-            flex: 1;
+            width: 100%;
             -webkit-appearance: none;
             appearance: none;
-            height: 4px;
-            border-radius: 4px;
-            background: rgba(255, 255, 255, 0.15);
+            height: 6px;
+            border-radius: 6px;
+            background: linear-gradient(90deg, var(--accent-primary) 85%, rgba(255, 255, 255, 0.15) 85%);
             outline: none;
             cursor: pointer;
+            transition: background 0.15s ease;
         }
 
         .volume-slider::-webkit-slider-thumb {
             -webkit-appearance: none;
             appearance: none;
-            width: 14px;
-            height: 14px;
+            width: 16px;
+            height: 16px;
             border-radius: 50%;
             background: #ffffff;
-            box-shadow: 0 0 10px var(--accent-primary);
+            box-shadow: 0 0 12px var(--accent-primary);
             cursor: pointer;
+            transition: transform 0.15s ease, box-shadow 0.15s ease;
+        }
+
+        .volume-slider::-webkit-slider-thumb:hover {
+            transform: scale(1.2);
+            box-shadow: 0 0 18px var(--accent-secondary);
         }
 
         /* Expandable Tabs (Search, Playlist, Quick Pick) */
@@ -638,8 +736,9 @@
             </div>
         </div>
 
-        <!-- Album Artwork -->
+        <!-- Album Artwork & Toast -->
         <div class="artwork-container">
+            <div class="seek-toast" id="seekToast">⏩ +10s</div>
             <img src="https://images.unsplash.com/photo-1614613535308-eb5fbd3d2c17?auto=format&fit=crop&w=600&q=80" alt="Album Cover" class="album-art" id="albumArt">
             <div class="source-tag" id="sourceTag">
                 <i class="fa-brands fa-youtube" style="color: #ff0000;"></i> YouTube Stream
@@ -658,7 +757,9 @@
         <!-- Interactive Progress Bar -->
         <div class="progress-container">
             <div class="progress-bar-wrapper" id="progressWrapper">
-                <div class="progress-fill" id="progressFill"></div>
+                <div class="progress-fill" id="progressFill">
+                    <div class="progress-thumb-dot"></div>
+                </div>
             </div>
             <div class="time-stamps">
                 <span id="currentTime">0:00</span>
@@ -666,7 +767,7 @@
             </div>
         </div>
 
-        <!-- Main Player Controls -->
+        <!-- Main Player Controls with 10s Seek -->
         <div class="controls-main">
             <button class="ctrl-btn" id="shuffleBtn" title="Toggle Shuffle">
                 <i class="fa-solid fa-shuffle"></i>
@@ -674,8 +775,18 @@
             <button class="ctrl-btn" id="prevBtn" title="Previous Song">
                 <i class="fa-solid fa-backward-step"></i>
             </button>
+            <button class="ctrl-btn seek-btn" id="rewind10Btn" title="Rewind 10 Seconds">
+                <i class="fa-solid fa-rotate-left"></i>
+                <span class="seek-badge">10</span>
+            </button>
+            
             <button class="play-btn" id="playBtn" title="Play / Pause">
                 <i class="fa-solid fa-play" id="playIcon"></i>
+            </button>
+
+            <button class="ctrl-btn seek-btn" id="forward10Btn" title="Forward 10 Seconds">
+                <i class="fa-solid fa-rotate-right"></i>
+                <span class="seek-badge">10</span>
             </button>
             <button class="ctrl-btn" id="nextBtn" title="Next Song">
                 <i class="fa-solid fa-forward-step"></i>
@@ -685,10 +796,12 @@
             </button>
         </div>
 
-        <!-- Volume Row -->
+        <!-- Smooth Sound / Volume Bar Row -->
         <div class="volume-bar-row">
             <i class="fa-solid fa-volume-high vol-icon" id="volIcon"></i>
-            <input type="range" min="0" max="100" value="85" class="volume-slider" id="volSlider">
+            <div class="volume-slider-wrapper">
+                <input type="range" min="0" max="100" value="85" class="volume-slider" id="volSlider">
+            </div>
         </div>
 
         <!-- Tabs Navigation -->
@@ -777,6 +890,9 @@
         // Visualizer Canvas Variables
         let canvas, ctx;
         let animFrameId = null;
+        let barHeights = new Array(32).fill(0);
+        let peakHeights = new Array(32).fill(0);
+        let peakHold = new Array(32).fill(0);
 
         // Initialize YouTube Player
         function onYouTubeIframeAPIReady() {
@@ -803,6 +919,7 @@
 
         function onPlayerReady(event) {
             ytPlayer.setVolume(85);
+            updateVolumeSliderBackground(85);
             loadTrackDetails(playlist[currentIndex]);
             renderRadioQueue();
             renderQuickPicks('all');
@@ -810,7 +927,6 @@
         }
 
         function onPlayerStateChange(event) {
-            // YT.PlayerState: ENDED (0), PLAYING (1), PAUSED (2), BUFFERING (3)
             if (event.data === YT.PlayerState.PLAYING) {
                 isPlaying = true;
                 updatePlayButtonUI(true);
@@ -832,7 +948,6 @@
 
         function onPlayerError(event) {
             console.log('YouTube Player Error:', event.data);
-            // If error playing current video, automatically advance to next video
             playNextTrack();
         }
 
@@ -889,6 +1004,33 @@
             playTrackAtIndex(currentIndex);
         }
 
+        // 10-Second Seek Controls (-10s / +10s)
+        document.getElementById('rewind10Btn').addEventListener('click', () => {
+            if (!ytPlayer || !ytPlayer.getCurrentTime) return;
+            const current = ytPlayer.getCurrentTime();
+            ytPlayer.seekTo(Math.max(0, current - 10), true);
+            showSeekToast('⏪ -10s');
+        });
+
+        document.getElementById('forward10Btn').addEventListener('click', () => {
+            if (!ytPlayer || !ytPlayer.getCurrentTime) return;
+            const current = ytPlayer.getCurrentTime();
+            const duration = ytPlayer.getDuration() || 0;
+            ytPlayer.seekTo(Math.min(duration, current + 10), true);
+            showSeekToast('⏩ +10s');
+        });
+
+        let toastTimeout = null;
+        function showSeekToast(text) {
+            const toast = document.getElementById('seekToast');
+            toast.textContent = text;
+            toast.classList.add('show');
+            if (toastTimeout) clearTimeout(toastTimeout);
+            toastTimeout = setTimeout(() => {
+                toast.classList.remove('show');
+            }, 900);
+        }
+
         function playTrackAtIndex(index) {
             currentIndex = index;
             const track = playlist[currentIndex];
@@ -898,10 +1040,9 @@
             }
         }
 
-        // Play specific video directly (e.g., from search or quick pick)
+        // Play custom video directly
         function playCustomVideo(id, title, artist, art) {
             const newTrack = { id, title, artist: artist || 'YouTube Request', art };
-            // Check if already in playlist
             const existingIndex = playlist.findIndex(t => t.id === id);
             if (existingIndex !== -1) {
                 currentIndex = existingIndex;
@@ -916,7 +1057,7 @@
             }
         }
 
-        // Progress Tracker
+        // Ultra Smooth Progress Tracker
         function startProgressTracker() {
             stopProgressTracker();
             progressInterval = setInterval(() => {
@@ -930,7 +1071,7 @@
                     document.getElementById('currentTime').textContent = formatTime(currentTime);
                     document.getElementById('durationTime').textContent = formatTime(duration);
                 }
-            }, 500);
+            }, 250);
         }
 
         function stopProgressTracker() {
@@ -954,18 +1095,24 @@
             return `${mins}:${secs < 10 ? '0' : ''}${secs}`;
         }
 
-        // Volume Slider
+        // Smooth Volume Slider
         const volSlider = document.getElementById('volSlider');
         volSlider.addEventListener('input', (e) => {
             const val = e.target.value;
             if (ytPlayer && ytPlayer.setVolume) {
                 ytPlayer.setVolume(val);
             }
+            updateVolumeSliderBackground(val);
+            
             const volIcon = document.getElementById('volIcon');
             if (val == 0) volIcon.className = 'fa-solid fa-volume-xmark vol-icon';
             else if (val < 50) volIcon.className = 'fa-solid fa-volume-low vol-icon';
             else volIcon.className = 'fa-solid fa-volume-high vol-icon';
         });
+
+        function updateVolumeSliderBackground(val) {
+            volSlider.style.background = `linear-gradient(90deg, var(--accent-primary) ${val}%, rgba(255, 255, 255, 0.15) ${val}%)`;
+        }
 
         // Shuffle & Loop Toggles
         document.getElementById('shuffleBtn').addEventListener('click', function() {
@@ -997,7 +1144,7 @@
             renderRadioQueue();
         }
 
-        // Search Song Feature (Using YouTube Data API / Invidious Fallback Search)
+        // Search Song Feature
         const searchInput = document.getElementById('searchInput');
         const searchBtn = document.getElementById('searchBtn');
 
@@ -1013,7 +1160,6 @@
             const resultsContainer = document.getElementById('searchResults');
             resultsContainer.innerHTML = `<div class="loading-spinner"><i class="fa-solid fa-spinner fa-spin"></i> Searching YouTube for "${escapeHtml(query)}"...</div>`;
 
-            // Check if user entered a direct YouTube URL or Video ID
             const extractedId = extractYouTubeId(query);
             if (extractedId) {
                 playCustomVideo(extractedId, `Custom Track (${extractedId})`, 'YouTube Video', `https://img.youtube.com/vi/${extractedId}/hqdefault.jpg`);
@@ -1022,7 +1168,6 @@
             }
 
             try {
-                // Fetch YouTube search results via standard Piped / Invidious open API endpoints for instant audio search
                 const apiRes = await fetch(`https://pipedapi.kavin.rocks/search?q=${encodeURIComponent(query)}&filter=music_songs`);
                 if (apiRes.ok) {
                     const data = await apiRes.json();
@@ -1032,10 +1177,9 @@
                     }
                 }
             } catch (e) {
-                console.log('Primary search endpoint error, trying fallback...', e);
+                console.log('Primary search endpoint error', e);
             }
 
-            // Fallback Search via secondary API
             try {
                 const fallbackRes = await fetch(`https://api.vuguvuvu.com/yt/search?q=${encodeURIComponent(query)}`);
                 if (fallbackRes.ok) {
@@ -1049,7 +1193,6 @@
                 console.log('Fallback search error', e);
             }
 
-            // Fallback: If APIs fail, offer instant direct player link options based on query
             resultsContainer.innerHTML = `
                 <div style="padding: 10px; font-size: 12px; color: var(--text-muted); text-align: center;">
                     <p style="margin-bottom: 8px;">Tap to play direct match:</p>
@@ -1082,7 +1225,6 @@
         }
 
         function playDirectSearch(query) {
-            // Searches via YouTube embed query string
             playCustomVideo('jfKfPfyJRdk', query, 'Custom YouTube Request', 'https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?auto=format&fit=crop&w=600&q=80');
         }
 
@@ -1131,33 +1273,60 @@
             el.textContent = count.toLocaleString();
         }, 4000);
 
-        // Canvas Audio Visualizer
+        // Canvas Equalizer Visualizer with Floating Peak Caps
         function initVisualizer() {
             canvas = document.getElementById('spectrumCanvas');
             ctx = canvas.getContext('2d');
-            canvas.width = canvas.offsetWidth;
-            canvas.height = canvas.offsetHeight;
+            canvas.width = canvas.offsetWidth * (window.devicePixelRatio || 1);
+            canvas.height = canvas.offsetHeight * (window.devicePixelRatio || 1);
         }
 
         function startVisualizerAnimation() {
             if (animFrameId) cancelAnimationFrame(animFrameId);
             
-            const numBars = 24;
+            const numBars = 32;
             function draw() {
                 animFrameId = requestAnimationFrame(draw);
                 ctx.clearRect(0, 0, canvas.width, canvas.height);
                 
                 const barWidth = canvas.width / numBars;
+                const gap = 3 * (window.devicePixelRatio || 1);
+                const actualWidth = barWidth - gap;
+                
                 for (let i = 0; i < numBars; i++) {
-                    const barHeight = Math.random() * (canvas.height * 0.75) + 4;
+                    const freqFactor = Math.sin((i / numBars) * Math.PI);
+                    const target = (Math.random() * 0.65 + 0.35) * freqFactor * (canvas.height * 0.85);
+                    
+                    barHeights[i] += (target - barHeights[i]) * 0.22;
+                    const h = Math.max(4, barHeights[i]);
+                    
+                    if (h > peakHeights[i]) {
+                        peakHeights[i] = h;
+                        peakHold[i] = 10;
+                    } else {
+                        if (peakHold[i] > 0) {
+                            peakHold[i]--;
+                        } else {
+                            peakHeights[i] -= 1.5;
+                            if (peakHeights[i] < 4) peakHeights[i] = 4;
+                        }
+                    }
+                    
                     const x = i * barWidth;
+                    const y = canvas.height - h;
                     
                     const gradient = ctx.createLinearGradient(0, canvas.height, 0, 0);
                     gradient.addColorStop(0, '#6366f1');
-                    gradient.addColorStop(1, '#ec4899');
+                    gradient.addColorStop(0.65, '#ec4899');
+                    gradient.addColorStop(1, '#38bdf8');
                     
                     ctx.fillStyle = gradient;
-                    ctx.fillRect(x + 2, canvas.height - barHeight, barWidth - 4, barHeight);
+                    ctx.fillRect(x, y, actualWidth, h);
+                    
+                    // Floating Peak Dot
+                    const peakY = canvas.height - peakHeights[i] - 4;
+                    ctx.fillStyle = '#ffffff';
+                    ctx.fillRect(x, Math.max(0, peakY), actualWidth, 2);
                 }
             }
             draw();
