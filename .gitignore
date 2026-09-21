@@ -1,0 +1,12 @@
+# Environment variables
+.env
+
+# OS / Editor Files
+.DS_Store
+Thumbs.db
+*.swp
+.vscode/
+.idea/
+
+# Downloads
+downloads/

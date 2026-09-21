@@ -1,0 +1,6 @@
+services:
+  - type: web
+    name: azuracast-radio-player
+    runtime: static
+    buildCommand: ""
+    staticPublishPath: ./
